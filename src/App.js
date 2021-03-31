@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Companies from './components/Companies';
-import { FaAngleDoubleRight } from 'react-icons/fa';
+import Duties from './components/Duties';
 
 function App() {
     const [loading, setLoading] = useState(true);
     const [experiences, setExperiences] = useState([]);
-    const [index, setIndex] = useState(0);
+    const [value, setValue] = useState(0);
 
     const fetchData = async () => {
         try {
@@ -22,15 +22,6 @@ function App() {
             console.log(error);
         }
     };
-    const selectCompany = (order) => {
-        if (order === 3) {
-            setIndex(0);
-        } else if (order === 2) {
-            setIndex(1);
-        } else if (order === 1) {
-            setIndex(2);
-        }
-    };
     useEffect(() => {
         fetchData();
     }, []);
@@ -44,36 +35,36 @@ function App() {
             </main>
         );
     }
+    const selectCompany = (i) => {
+        setValue(i);
+    };
+    const { title, company, dates, duties } = experiences[value];
     return (
         <section className='section'>
             <div className='title'>
                 <h2>experience</h2>
                 <div className='underline'></div>
             </div>
-            <div className='job-center'>
+            <div className='jobs-center'>
                 <div className='btn-container'>
-                    {experiences.map((experience) => {
+                    {experiences.map((exp, index) => {
                         return (
                             <Companies
-                                company={experience.company}
-                                order={experience.order}
+                                exp={exp}
+                                key={exp.id}
+                                index={index}
+                                value={value}
                                 selectCompany={selectCompany}
-                                key={experience.id}
                             />
                         );
                     })}
                 </div>
                 <article className='job-info'>
-                    <h3>{experiences[index].title}</h3>
-                    <h4>{experiences[index].company}</h4>
-                    <p className='job-date'>{experiences[index].dates}</p>
-                    {experiences[index].duties.map((duty, index) => {
-                        return (
-                            <div className='job-desc' key={index}>
-                                <FaAngleDoubleRight className='job-icon' />
-                                <p>{duty}</p>
-                            </div>
-                        );
+                    <h3>{title}</h3>
+                    <h4>{company}</h4>
+                    <p className='job-date'>{dates}</p>
+                    {duties.map((duty, index) => {
+                        return <Duties key={index} duty={duty} />;
                     })}
                 </article>
             </div>

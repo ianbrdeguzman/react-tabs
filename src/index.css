@@ -218,7 +218,7 @@ Jobs
 .job-icon {
     color: var(--clr-primary-5);
 }
-@media screen and (min-width: 992px) {
+@media (min-width: 992px) {
     .jobs-center {
         width: 90vw;
         display: grid;
@@ -262,6 +262,4 @@ Jobs
 .btn:hover {
     color: var(--clr-primary-1);
     background: var(--clr-primary-8);
-}
-.center-btn {
 }
